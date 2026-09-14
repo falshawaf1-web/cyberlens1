@@ -1,0 +1,17 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+uploads/
+reports/
+data/*.db
+data/*.sqlite
+CyberLens_Final_Release/
+CyberLens_Final.zip
+cyberlens_backup/
+frontend_backup/
+CyberLens_Backup_*/
+test_project_api.zip
+cyberlens-test.zip

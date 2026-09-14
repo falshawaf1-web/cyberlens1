@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="CyberLens - منصة ذكية لتحليل المخاطر والثغرات الأمنية"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b2f73"
+    >
+
+    <title>CyberLens | منصة التحليل الأمني الذكي</title>
+
+    <link
+        rel="stylesheet"
+        href="/frontend/style.css"
+    >
+</head>
+
+<body>
+
+    <!-- ==================================================
+         Mobile Overlay
+    =================================================== -->
+
+    <div
+        id="mobileOverlay"
+        class="mobile-overlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- ==================================================
+         Application Shell
+    =================================================== -->
+
+    <div
+        id="appShell"
+        class="app-shell"
+    >
+
+        <!-- ==============================================
+             Sidebar
+        =============================================== -->
+
+        <aside
+            id="sidebar"
+            class="sidebar"
+            aria-label="القائمة الرئيسية"
+        >
+
+            <!-- Brand -->
+
+            <div class="brand">
+
+                <div
+                    class="brand-mark"
+                    aria-hidden="true"
+                >
+                    <svg
+                        viewBox="0 0 64 64"
+                        role="img"
+                    >
+                        <path
+                            d="M25 5 7 11v14c0 14.2 7.5 26.8 18 31 10.5-4.2 18-16.8 18-31V11L25 5Z"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="m18.5 29 4.8 4.8L32 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <circle
+                            cx="45"
+                            cy="44"
+                            r="10"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                        />
+
+                        <path
+                            d="m52 51 8 8"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="5"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </div>
+
+                <div class="brand-copy">
+                    <strong>CyberLens</strong>
+                    <span>منصة التحليل الأمني الذكي</span>
+                </div>
+
+            </div>
+
+
+            <!-- Navigation -->
+
+            <nav class="sidebar-nav">
+
+                <button
+                    class="nav-item active"
+                    type="button"
+                    data-page="dashboard"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 10.5 12 3l9 7.5"/>
+                            <path d="M5 9.5V21h14V9.5"/>
+                            <path d="M9 21v-7h6v7"/>
+                        </svg>
+                    </span>
+
+                    <span>نظرة عامة</span>
+                </button>
+
+
+                <button
+                class="nav-item"
+                    type="button"
+                    data-page="scanner"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m16.5 16.5 4 4"/>
+                        </svg>
+                    </span>
+
+                    <span>الفحص</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    type="button"
+                    data-page="dependencies"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <path d="m12 3 8 4.5-8 4.5-8-4.5L12 3Z"/>
+                            <path d="m4 7.5 8 4.5 8-4.5"/>
+                            <path d="M4 12l8 4.5 8-4.5"/>
+                            <path d="M4 16.5 12 21l8-4.5"/>
+                        </svg>
+                    </span>
+
+                    <span>المكتبات</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    type="button"
+                    data-page="history"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 3h12a2 2 0 0 1 2 2v16H4V5a2 2 0 0 1 2-2Z"/>
+                            <path d="M8 8h8"/>
+                            <path d="M8 12h8"/>
+                            <path d="M8 16h5"/>
+                        </svg>
+                    </span>
+
+                    <span>التقارير</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    type="button"
+                    data-page="vulnerabilities"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="13" r="6"/>
+                            <path d="M12 7V4"/>
+                            <path d="M8 8 6 6"/>
+                            <path d="m16 8 2-2"/>
+                            <path d="M6 13H3"/>
+                            <path d="M21 13h-3"/>
+                            <path d="M8 18 6 20"/>
+                            <path d="m16 18 2 2"/>
+                            <path d="M10 11h4"/>
+                            <path d="M10 15h4"/>
+                        </svg>
+                    </span>
+
+                    <span>الثغرات</span>
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    type="button"
+                    data-page="ai"
+                >
+                    <span
+                        class="nav-icon"
+                        aria-hidden="true"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-2 3 3 3 0 0 0 2 3v1a3 3 0 0 0 3 3"/>
+                            <path d="M15 4a3 3 0 0 1 3 3v1a3 3 0 0 1 2 3 3 3 0 0 1-2 3v1a3 3 0 0 1-3 3"/>
+                            <path d="M9 4v16"/>
+                            <path d="M15 4v16"/>
+                            <path d="M9 9H6"/>
+                            <path d="M18 9h-3"/>
+                            <path d="M9 15H6"/>
+                            <path d="M18 15h-3"/>
+                        </svg>
+                    </span>
+
+                    <span>الذكاء الاصطناعي</span>
+                </button>
+
+            </nav>
+
+
+            <!-- Sidebar Status -->
+
+            <div class="sidebar-status">
+              <div class="sidebar-status-head">
+                    <span>حالة المنصة</span>
+
+                    <span
+                        id="sidebarStatusDot"
+                        class="status-dot online"
+                    ></span>
+                </div>
+
+                <strong id="sidebarStatusText">
+                    النظام يعمل
+                </strong>
+
+                <small>
+                    CyberLens Security Engine
+                </small>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ==============================================
+             Main Content
+        =============================================== -->
+
+        <main class="main-content">
+
+            <!-- ==========================================
+                 Top Header
+            =========================================== -->
+
+            <header class="topbar">
+
+                <div class="topbar-title">
+
+                    <button
+                        id="mobileMenuButton"
+                        class="icon-button mobile-menu-button"
+                        type="button"
+                        aria-label="فتح القائمة"
+                    >
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 7h16"/>
+                            <path d="M4 12h16"/>
+                            <path d="M4 17h16"/>
+                        </svg>
+                    </button>
+
+                    <div>
+                        <h1 id="pageTitle">
+                            لوحة التحكم الأمنية
+                        </h1>
+
+                        <p id="pageSubtitle">
+                            مراقبة وتحليل نتائج الفحوصات الأمنية
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <div
+                        id="currentDate"
+                        class="date-chip"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <rect
+                                x="3"
+                                y="5"
+                                width="18"
+                                height="16"
+                                rx="2"
+                            />
+                            <path d="M16 3v4"/>
+                            <path d="M8 3v4"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+
+                        <span>
+                            جاري تحميل التاريخ...
+                        </span>
+                    </div>
+
+
+                    <button
+                        id="refreshDashboardButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path d="M20 6v5h-5"/>
+                            <path d="M4 18v-5h5"/>
+                            <path d="M18 9a7 7 0 0 0-12-2L4 11"/>
+                            <path d="M6 15a7 7 0 0 0 12 2l2-4"/>
+                        </svg>
+
+                        <span>تحديث البيانات</span>
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- ==========================================
+                 Global Alerts
+            =========================================== -->
+
+            <div
+                id="globalAlert"
+                class="global-alert"
+                role="status"
+                aria-live="polite"
+                hidden
+            ></div>
+
+
+            <!-- ==========================================
+                 Page: Dashboard
+            =========================================== -->
+
+            <section
+                id="page-dashboard"
+                class="page-section active"
+                data-page-section="dashboard"
+            >
+            <!-- Summary Cards -->
+
+                <div class="summary-grid">
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-icon blue">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3 5 6v5c0 4.8 2.8 8.8 7 10 4.2-1.2 7-5.2 7-10V6l-7-3Z"/>
+                                <path d="m9 12 2 2 4-4"/>
+                            </svg>
+                        </div>
+
+                        <div class="summary-card-copy">
+                            <span>متوسط درجة الأمان</span>
+
+                            <strong>
+                                <span id="averageScoreValue">--</span>
+                                <small>/100</small>
+                            </strong>
+
+                            <p id="averageScoreStatus">
+                                جاري التحليل
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-icon red">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3 2.8 20h18.4L12 3Z"/>
+                                <path d="M12 9v5"/>
+                                <path d="M12 17h.01"/>
+                            </svg>
+                        </div>
+
+                        <div class="summary-card-copy">
+                            <span>إجمالي النتائج</span>
+
+                            <strong id="totalFindingsValue">
+                                --
+                            </strong>
+
+                            <p>نتائج أمنية مكتشفة</p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-icon orange">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 17 10 11l4 4 6-8"/>
+                                <path d="M15 7h5v5"/>
+                            </svg>
+                        </div>
+
+                        <div class="summary-card-copy">
+                            <span>أعلى مستوى خطورة</span>
+
+                            <strong
+                                id="highestRiskValue"
+                                class="risk-text"
+                            >
+                                --
+                            </strong>
+
+                            <p id="highestRiskHint">
+                                بانتظار البيانات
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="summary-card">
+
+                        <div class="summary-card-icon cyan">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 11a8 8 0 1 0-2.3 5.7"/>
+                                <path d="M20 5v6h-6"/>
+                            </svg>
+                        </div>
+
+                        <div class="summary-card-copy">
+                            <span>إجمالي الفحوصات</span>
+
+                            <strong id="totalScansValue">
+                                --
+                            </strong>
+
+                            <p>فحوصات محفوظة</p>
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- Charts -->
+
+                <div class="dashboard-grid">
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h2>
+                                    توزيع النتائج حسب الخطورة
+                                </h2>
+
+                                <p>
+                                    تحليل شامل لمستويات المخاطر المكتشفة
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="donut-layout">
+                          <div
+                                id="severityDonut"
+                                class="donut-chart"
+                                aria-label="توزيع النتائج حسب الخطورة"
+                            >
+                                <div class="donut-center">
+                                    <strong id="donutTotal">
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        إجمالي النتائج
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="severity-legend">
+
+                                <div class="legend-row">
+                                    <span
+                                        class="legend-color critical"
+                                    ></span>
+
+                                    <span class="legend-label">
+                                        حرجة
+                                    </span>
+
+                                    <strong id="legendCritical">
+                                        0
+                                    </strong>
+                                </div>
+
+
+                                <div class="legend-row">
+                                    <span
+                                        class="legend-color high"
+                                    ></span>
+
+                                    <span class="legend-label">
+                                        عالية
+                                    </span>
+
+                                    <strong id="legendHigh">
+                                        0
+                                    </strong>
+                                </div>
+
+
+                                <div class="legend-row">
+                                    <span
+                                        class="legend-color medium"
+                                    ></span>
+
+                                    <span class="legend-label">
+                                        متوسطة
+                                    </span>
+
+                                    <strong id="legendMedium">
+                                        0
+                                    </strong>
+                                </div>
+
+
+                                <div class="legend-row">
+                                    <span
+                                        class="legend-color low"
+                                    ></span>
+
+                                    <span class="legend-label">
+                                        منخفضة
+                                    </span>
+
+                                    <strong id="legendLow">
+                                        0
+                                    </strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h2>
+                                    الفحوصات حسب النوع
+                                </h2>
+
+                                <p>
+                                    مقارنة نشاط محركات CyberLens
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            id="scanTypeBars"
+                            class="bar-chart"
+                        >
+
+                            <div
+                                class="bar-column"
+                                data-scan-type="url"
+                                >
+                                <div class="bar-track">
+                                    <div
+                                        id="barUrl"
+                                        class="bar-fill blue"
+                                        style="height: 0%"
+                                    ></div>
+                                </div>
+
+                                <strong id="barUrlValue">
+                                    0
+                                </strong>
+
+                                <span>روابط</span>
+                            </div>
+
+
+                            <div
+                                class="bar-column"
+                                data-scan-type="code"
+                            >
+                                <div class="bar-track">
+                                    <div
+                                        id="barCode"
+                                        class="bar-fill cyan"
+                                        style="height: 0%"
+                                    ></div>
+                                </div>
+
+                                <strong id="barCodeValue">
+                                    0
+                                </strong>
+
+                                <span>كود</span>
+                            </div>
+
+
+                            <div
+                                class="bar-column"
+                                data-scan-type="dependencies"
+                            >
+                                <div class="bar-track">
+                                    <div
+                                        id="barDependencies"
+                                        class="bar-fill orange"
+                                        style="height: 0%"
+                                    ></div>
+                                </div>
+
+                                <strong id="barDependenciesValue">
+                                    0
+                                </strong>
+
+                                <span>مكتبات</span>
+                            </div>
+
+
+                            <div
+                                class="bar-column"
+                                data-scan-type="project"
+                            >
+                                <div class="bar-track">
+                                    <div
+                                        id="barProject"
+                                        class="bar-fill green"
+                                        style="height: 0%"
+                                    ></div>
+                                </div>
+
+                                <strong id="barProjectValue">
+                                    0
+                                </strong>
+
+                                <span>مشاريع</span>
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- Recent Scans + Recommendation -->
+
+                <div class="content-grid">
+
+                    <article class="panel recent-scans-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h2>آخر الفحوصات</h2>
+                                <p>
+                                    أحدث العمليات الأمنية المحفوظة
+                                </p>
+                            </div>
+
+                            <button
+                                class="text-button"
+                                type="button"
+                                data-open-page="history"
+                            >
+                                عرض الكل
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table class="data-table">
+                              <thead>
+                                    <tr>
+                                        <th>الهدف</th>
+                                        <th>نوع الفحص</th>
+                                        <th>درجة الأمان</th>
+                                        <th>النتائج</th>
+                                        <th>الخطورة</th>
+                                        <th>الإجراء</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="recentScansBody">
+
+                                    <tr>
+                                        <td
+                                            colspan="6"
+                                            class="empty-state-cell"
+                                        >
+                                            جاري تحميل الفحوصات...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </article>
+
+
+                    <aside class="recommendation-card">
+
+                        <div class="recommendation-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3 5 6v5c0 4.8 2.8 8.8 7 10 4.2-1.2 7-5.2 7-10V6l-7-3Z"/>
+                                <path d="M9.5 12.5 11 14l3.5-4"/>
+                            </svg>
+                        </div>
+
+                        <h2>التوصية العامة</h2>
+
+                        <p id="generalRecommendation">
+                            سيعرض CyberLens توصية أمنية
+                            اعتمادًا على أحدث نتائج الفحص.
+                        </p>
+
+                        <button
+                            class="primary-button full-width"
+                            type="button"
+                            data-open-page="scanner"
+                        >
+                            بدء فحص جديد
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14"/>
+                                <path d="m13 6 6 6-6 6"/>
+                            </svg>
+                        </button>
+
+                    </aside>
+
+                </div>
+
+
+                <!-- Info Banner -->
+
+                <div class="info-banner">
+
+                    <div class="info-banner-icon">
+                        i
+                    </div>
+
+                    <div>
+                        <strong>
+                            منصة تحليل دفاعي متعددة المحركات
+                        </strong>
+
+                        <p>
+                            يجمع CyberLens بين التحليل الثابت للكود،
+                            بيانات OSV، تحليل الروابط، فحص المشاريع،
+                            ومحرك الذكاء الاصطناعي الأمني.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Page: Scanner
+            =========================================== -->
+
+            <section
+                id="page-scanner"
+                class="page-section"
+                data-page-section="scanner"
+                hidden
+            >
+
+                <div class="scanner-intro">
+
+                    <div>
+                        <span class="eyebrow">
+                            Security Scanner
+                        </span>
+
+                        <h2>
+                            مركز الفحص الأمني
+                        </h2>
+
+                        <p>
+                            اختر نوع الفحص المناسب وسيقوم
+                            CyberLens بتحليل النتائج وحساب
+                            درجة الأمان وإنشاء تحليل ذكي.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="scanner-tabs">
+                  <button
+                        class="scanner-tab active"
+                        type="button"
+                        data-scan-tab="url"
+                    >
+                        فحص رابط
+                    </button>
+
+                    <button
+                        class="scanner-tab"
+                        type="button"
+                        data-scan-tab="code"
+                    >
+                        فحص كود
+                    </button>
+
+                    <button
+                        class="scanner-tab"
+                        type="button"
+                        data-scan-tab="dependencies"
+                    >
+                        فحص مكتبات
+                    </button>
+
+                    <button
+                        class="scanner-tab"
+                        type="button"
+                        data-scan-tab="project"
+                    >
+                        فحص مشروع ZIP
+                    </button>
+
+                </div>
+
+
+                <!-- URL Scan -->
+
+                <article
+                    id="scan-panel-url"
+                    class="scan-panel active"
+                    data-scan-panel="url"
+                >
+
+                    <div class="scan-panel-copy">
+                        <h3>تحليل رابط مشبوه</h3>
+
+                        <p>
+                            فحص مؤشرات الخطر محليًا دون فتح
+                            الرابط أو تنفيذ محتواه.
+                        </p>
+                    </div>
+
+                    <form id="urlScanForm">
+
+                        <label
+                            class="field-label"
+                            for="urlInput"
+                        >
+                            الرابط المراد فحصه
+                        </label>
+
+                        <div class="input-action-row">
+
+                            <input
+                                id="urlInput"
+                                name="url"
+                                type="url"
+                                placeholder="https://example.com/login"
+                                autocomplete="off"
+                                required
+                            >
+
+                            <button
+                                class="primary-button"
+                                type="submit"
+                            >
+                                بدء الفحص
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </article>
+
+
+                <!-- Code Scan -->
+
+                <article
+                    id="scan-panel-code"
+                    class="scan-panel"
+                    data-scan-panel="code"
+                    hidden
+                >
+
+                    <div class="scan-panel-copy">
+                        <h3>فحص ملف كود</h3>
+
+                        <p>
+                            تحليل ثابت للملف دون تنفيذ الكود المرفوع.
+                        </p>
+                    </div>
+
+                    <form id="codeScanForm">
+
+                        <label
+                            class="upload-zone"
+                            for="codeFileInput"
+                        >
+                            <input
+                                id="codeFileInput"
+                                name="file"
+                                type="file"
+                                hidden
+                            >
+
+                            <span class="upload-zone-icon">
+                                ↑
+                            </span>
+
+                            <strong>
+                                اختر ملف كود للفحص
+                            </strong>
+
+                            <small id="codeFileName">
+                                لم يتم اختيار ملف
+                            </small>
+                        </label>
+                        <button
+                            class="primary-button"
+                            type="submit"
+                        >
+                            فحص الكود
+                        </button>
+
+                    </form>
+
+                </article>
+
+
+                <!-- Dependency Scan -->
+
+                <article
+                    id="scan-panel-dependencies"
+                    class="scan-panel"
+                    data-scan-panel="dependencies"
+                    hidden
+                >
+
+                    <div class="scan-panel-copy">
+                        <h3>فحص ملف المكتبات</h3>
+
+                        <p>
+                            مطابقة الاعتماديات والإصدارات
+                            مع بيانات الثغرات المعروفة.
+                        </p>
+                    </div>
+
+                    <form id="dependencyScanForm">
+
+                        <label
+                            class="upload-zone"
+                            for="dependencyFileInput"
+                        >
+                            <input
+                                id="dependencyFileInput"
+                                name="file"
+                                type="file"
+                                hidden
+                            >
+
+                            <span class="upload-zone-icon">
+                                ↑
+                            </span>
+
+                            <strong>
+                                اختر ملف اعتماديات
+                            </strong>
+
+                            <small id="dependencyFileName">
+                                requirements.txt،
+                                package-lock.json،
+                                composer.lock...
+                            </small>
+                        </label>
+
+                        <button
+                            class="primary-button"
+                            type="submit"
+                        >
+                            فحص المكتبات
+                        </button>
+
+                    </form>
+
+                </article>
+
+
+                <!-- Project Scan -->
+
+                <article
+                    id="scan-panel-project"
+                    class="scan-panel"
+                    data-scan-panel="project"
+                    hidden
+                >
+
+                    <div class="scan-panel-copy">
+                        <h3>فحص مشروع كامل</h3>
+
+                        <p>
+                            استخراج ZIP بقيود أمان ثم تحليل
+                            الكود والاعتماديات وتجميع النتائج.
+                        </p>
+                    </div>
+
+                    <form id="projectScanForm">
+
+                        <label
+                            class="upload-zone"
+                            for="projectFileInput"
+                        >
+                            <input
+                                id="projectFileInput"
+                                name="file"
+                                type="file"
+                                accept=".zip,application/zip"
+                                hidden
+                            >
+
+                            <span class="upload-zone-icon">
+                                ↑
+                            </span>
+
+                            <strong>
+                                اختر مشروع ZIP
+                            </strong>
+
+                            <small id="projectFileName">
+                                لم يتم اختيار ملف
+                            </small>
+                        </label>
+
+                        <button
+                            class="primary-button"
+                            type="submit"
+                        >
+                            فحص المشروع
+                        </button>
+
+                    </form>
+
+                </article>
+
+
+                <!-- Scan Progress -->
+
+                <div
+                    id="scanLoading"
+                    class="scan-loading"
+                    hidden
+                >
+                <div class="loader"></div>
+
+                    <div>
+                        <strong>
+                            جاري تنفيذ التحليل الأمني...
+                        </strong>
+
+                        <p>
+                            قد يستغرق فحص الاعتماديات
+                            والمشاريع عدة ثوانٍ.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Scan Result -->
+
+                <div
+                    id="scanResultContainer"
+                    class="scan-result-container"
+                    hidden
+                ></div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Page: Dependencies
+            =========================================== -->
+
+            <section
+                id="page-dependencies"
+                class="page-section"
+                data-page-section="dependencies"
+                hidden
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            Dependency Security
+                        </span>
+
+                        <h2>
+                            أمان المكتبات والاعتماديات
+                        </h2>
+
+                        <p>
+                            استعراض نتائج الفحوصات الخاصة
+                            بالحزم البرمجية ومصادر OSV.
+                        </p>
+                    </div>
+
+                    <button
+                        class="primary-button"
+                        type="button"
+                        data-open-scan-tab="dependencies"
+                    >
+                        فحص مكتبة جديدة
+                    </button>
+
+                </div>
+
+
+                <article class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h2>
+                                آخر فحوصات المكتبات
+                            </h2>
+
+                            <p>
+                                النتائج المحفوظة في قاعدة البيانات
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>الملف</th>
+                                    <th>النتائج</th>
+                                    <th>درجة الأمان</th>
+                                    <th>أعلى خطورة</th>
+                                    <th>التاريخ</th>
+                                    <th>التفاصيل</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="dependencyHistoryBody">
+
+                                <tr>
+                                    <td
+                                        colspan="6"
+                                        class="empty-state-cell"
+                                    >
+                                        جاري التحميل...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Page: History
+            =========================================== -->
+
+            <section
+                id="page-history"
+                class="page-section"
+                data-page-section="history"
+                hidden
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            Reports & History
+                        </span>
+
+                        <h2>
+                            سجل الفحوصات والتقارير
+                        </h2>
+                        <p>
+                            جميع عمليات الفحص المحفوظة
+                            مرتبة من الأحدث إلى الأقدم.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <article class="panel">
+
+                    <div class="history-toolbar">
+
+                        <div class="search-box">
+
+                            <svg viewBox="0 0 24 24">
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="7"
+                                />
+                                <path d="m16.5 16.5 4 4"/>
+                            </svg>
+
+                            <input
+                                id="historySearchInput"
+                                type="search"
+                                placeholder="ابحث عن هدف أو نوع فحص..."
+                            >
+
+                        </div>
+
+
+                        <select
+                            id="historyTypeFilter"
+                            class="select-control"
+                        >
+                            <option value="">
+                                كل أنواع الفحص
+                            </option>
+
+                            <option value="url">
+                                روابط
+                            </option>
+
+                            <option value="code">
+                                كود
+                            </option>
+
+                            <option value="dependencies">
+                                مكتبات
+                            </option>
+
+                            <option value="project">
+                                مشاريع
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table class="data-table">
+
+                            <thead>
+                                <tr>
+                                    <th>المعرف</th>
+                                    <th>الهدف</th>
+                                    <th>نوع الفحص</th>
+                                    <th>النتائج</th>
+                                    <th>درجة الأمان</th>
+                                    <th>أعلى خطورة</th>
+                                    <th>التاريخ</th>
+                                    <th>الإجراء</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="scanHistoryBody">
+
+                                <tr>
+                                    <td
+                                        colspan="8"
+                                        class="empty-state-cell"
+                                    >
+                                        جاري تحميل السجل...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Page: Vulnerabilities
+            =========================================== -->
+
+            <section
+                id="page-vulnerabilities"
+                class="page-section"
+                data-page-section="vulnerabilities"
+                hidden
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            Findings Center
+                        </span>
+
+                        <h2>
+                            مركز النتائج والثغرات
+                        </h2>
+
+                        <p>
+                            استعراض أحدث النتائج الأمنية
+                            وتفاصيل المعالجة المقترحة.
+                        </p>
+                    </div>
+
+                </div>
+                <div
+                    id="vulnerabilitiesContainer"
+                    class="findings-grid"
+                >
+                    <div class="empty-panel">
+                        سيتم تحميل النتائج من سجل الفحوصات.
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Page: AI
+            =========================================== -->
+
+            <section
+                id="page-ai"
+                class="page-section"
+                data-page-section="ai"
+                hidden
+            >
+
+                <div class="ai-hero">
+
+                    <div class="ai-hero-copy">
+
+                        <span class="eyebrow">
+                            AI Security Analyst
+                        </span>
+
+                        <h2>
+                            المحلل الأمني الذكي
+                        </h2>
+
+                        <p>
+                            تفسير النتائج، ترتيب الأولويات،
+                            اكتشاف العلاقات المركبة، واقتراح
+                            خطوات المعالجة والتحقق.
+                        </p>
+
+                        <div class="ai-status-row">
+
+                            <span class="status-pill">
+                                <span class="status-dot online"></span>
+                                Local Analyzer
+                            </span>
+
+                            <span
+                                id="aiProviderPill"
+                                class="status-pill"
+                            >
+                                CyberLens Local Analyzer
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ai-orb">
+                        <span>AI</span>
+                    </div>
+
+                </div>
+
+
+                <div class="ai-grid">
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h2>
+                                    آخر تحليل ذكي
+                                </h2>
+
+                                <p>
+                                    ملخص مبني على أحدث فحص
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            id="latestAiAnalysis"
+                            class="ai-analysis-content"
+                        >
+                            <div class="empty-panel">
+                                نفّذ فحصًا أمنيًا لعرض التحليل هنا.
+                            </div>
+                        </div>
+
+                    </article>
+
+
+                    <article class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h2>
+                                    المخاطر المترابطة
+                                </h2>
+
+                                <p>
+                                    Correlation Engine
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            id="aiCorrelationsContainer"
+                            class="correlations-list"
+                        >
+                            <div class="empty-panel">
+                                لا توجد بيانات بعد.
+                            </div>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 Scan Details Drawer
+            =========================================== -->
+
+            <div
+                id="scanDetailsDrawer"
+                class="details-drawer"
+                aria-hidden="true"
+            >
+
+                <div class="details-drawer-panel">
+
+                    <div class="details-drawer-header">
+                      <div>
+                            <span class="eyebrow">
+                                Scan Details
+                            </span>
+
+                            <h2 id="detailsDrawerTitle">
+                                تفاصيل الفحص
+                            </h2>
+                        </div>
+
+                        <button
+                            id="closeDetailsDrawer"
+                            class="icon-button"
+                            type="button"
+                            aria-label="إغلاق"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="scanDetailsContent"
+                        class="details-drawer-content"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                 Footer
+            =========================================== -->
+
+            <footer class="app-footer">
+
+                <span>
+                    CyberLens Security Platform
+                </span>
+
+                <span>
+                    Defensive Security Analysis
+                </span>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- ==================================================
+         Scripts
+    =================================================== -->
+
+    <script
+        src="/frontend/charts.js"
+        defer
+    ></script>
+
+    <script
+        src="/frontend/app.js"
+        defer
+    ></script>
+
+</body>
+</html>

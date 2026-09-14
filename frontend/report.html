@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير الأمان - CyberLens</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f4f9; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #1a2a6c, #2d4373); color: white; padding: 25px; border-radius: 16px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .header h1 { font-size: 28px; font-weight: 700; }
+        .header .date { font-size: 14px; opacity: 0.8; }
+        
+        .score-card { background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 25px; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; color: white; flex-shrink: 0; }
+        .score-good { background: #28a745; }
+        .score-medium { background: #ffc107; color: #333; }
+        .score-bad { background: #dc3545; }
+        .score-details { flex: 1; }
+        .score-details h2 { font-size: 20px; color: #333; margin-bottom: 8px; }
+        .score-details p { color: #666; font-size: 14px; }
+        .score-details .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-top: 8px; }
+        .badge-good { background: #d4edda; color: #155724; }
+        .badge-medium { background: #fff3cd; color: #856404; }
+        .badge-bad { background: #f8d7da; color: #721c24; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-item { background: white; border-radius: 12px; padding: 18px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .stat-item .number { font-size: 28px; font-weight: 700; color: #1a2a6c; }
+        .stat-item .label { font-size: 13px; color: #888; margin-top: 4px; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px; }
+        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+        .card { background: white; border-radius: 16px; padding: 22px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .card h3 { font-size: 16px; color: #333; margin-bottom: 15px; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; }
+
+        .chart-container { height: 200px; }
+
+        .lib-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 30px; }
+        .lib-info .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f3f5; }
+        .lib-info .row .label { color: #888; font-size: 14px; }
+        .lib-info .row .value { color: #333; font-weight: 500; font-size: 14px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th { background: #f8f9fa; color: #333; padding: 12px 10px; text-align: center; border-bottom: 2px solid #dee2e6; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f1f3f5; text-align: center; }
+        .severity-high { color: #dc3545; font-weight: 600; }
+        .severity-medium { color: #fd7e14; font-weight: 600; }
+        .severity-low { color: #28a745; font-weight: 600; }
+        .severity-critical { color: #6f42c1; font-weight: 600; }
+        
+        .update-box { background: #fff3cd; border-radius: 12px; padding: 16px 20px; margin-top: 20px; border-right: 4px solid #ffc107; display: flex; align-items: center; gap: 12px; }
+        .update-box .icon { font-size: 24px; }
+        .update-box .text { flex: 1; color: #856404; font-size: 14px; }
+        .btn { display: inline-block; padding: 10px 24px; background: #1a2a6c; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .btn:hover { background: #2d4373; }
+        .btn-back { background: #6c757d; }
+        .btn-back:hover { background: #5a6268; }
+        .footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+
+        .recommendation-text { background: #d4edda; border-radius: 8px; padding: 10px 16px; font-size: 13px; color: #155724; margin-top: 8px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🔍 CyberLens - تقرير الأمان</h1>
+        <span class="date" id="reportDate"></span>
+    </div>
+
+    <!-- Score Card -->
+    <div class="score-card" id="scoreCard">
+        <div class="score-circle" id="scoreCircle">82</div>
+        <div class="score-details">
+            <h2 id="libName">requests</h2>
+            <p id="libDescription">مكتبة Python لإرسال طلبات HTTP</p>
+            <span class="badge badge-good" id="statusBadge">✅ جيد</span>
+            <span style="margin-right: 15px; color: #888; font-size: 14px;" id="lastUpdate">آخر تحديث أمني: 2.31.0</span>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-item"><div class="number" id="totalVulns">3</div><div class="label">إجمالي الثغرات</div></div>
+        <div class="stat-item"><div class="number" id="highCount">1</div><div class="label">عالية (High)</div></div>
+        <div class="stat-item"><div class="number" id="mediumCount">1</div><div class="label">متوسطة (Medium)</div></div>
+        <div class="stat-item"><div class="number" id="lowCount">1</div><div class="label">منخفضة (Low)</div></div>
+        <div class="stat-item"><div class="number" id="criticalCount">0</div><div class="label">حرجة (Critical)</div></div>
+    </div>
+
+    <!-- Two Columns: Chart + Library Info -->
+    <div class="two-col">
+        <div class="card">
+            <h3>📊 توزيع الثغرات حسب الخطورة</h3>
+            <div class="chart-container">
+                <canvas id="severityChart"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <h3>📋 معلومات المكتبة</h3>
+            <div class="lib-info">
+                <div class="row"><span class="label">اسم المكتبة</span><span class="value" id="infoName">requests</span></div>
+                <div class="row"><span class="label">الإصدار المثبت</span><span class="value" id="infoVersion">2.25.1</span></div>
+                <div class="row"><span class="label">النظام البيئي</span><span class="value" id="infoEcosystem">PyPI</span></div>
+                <div class="row"><span class="label">تاريخ الفحص</span><span class="value" id="infoDate">2024-05-21 14:35:22</span></div>
+                <div class="row"><span class="label">حالة المكتبة</span><span class="value" id="infoStatus">✅ نشطة</span></div>
+                <div class="row"><span class="label">أعلى خطورة</span><span class="value severity-high" id="infoMaxSeverity">عالية</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vulnerabilities Table -->
+    <div class="card" style="margin-bottom: 25px;">
+        <h3>📋 الثغرات المكتشفة</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>مستوى الخطورة</th>
+                        <th>معرف CVE</th>
+                        <th>الوصف</th>
+                        <th>الحالة</th>
+                        <th>التوصية</th>
+                    </tr>
+                </thead>
+                <tbody id="vulnTableBody">
+                    <!-- يتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Update Recommendation -->
+    <div class="update-box">
+        <span class="icon">⚠️</span>
+        <span class="text" id="updateMessage"><strong>تحديث مطلوب:</strong> يُوصى بتحديث مكتبة requests من الإصدار 2.25.1 إلى الإصدار 2.31.0 أو أحدث للحصول على حماية من الثغرات المكتشفة.</span>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <a href="/dashboard.html" class="btn btn-back">⬅ العودة للوحة التحكم</a>
+        <a href="#" class="btn" onclick="window.print()">🖨️ طباعة التقرير</a>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // البيانات (سيتم جلبها من الخادم في المستقبل)
+    // ============================================================
+    const reportData = {
+        library: {
+            name: 'requests',
+            version: '2.25.1',
+            ecosystem: 'PyPI',
+            scanDate: new Date().toLocaleString('ar-EG'),
+            status: 'نشطة',
+            maxSeverity: 'عالية',
+            description: 'مكتبة Python لإرسال طلبات HTTP'
+        },
+        score: 82,
+        scoreLabel: 'جيد',
+        scoreClass: 'good',
+        totalVulns: 3,
+        vulns: [
+            { severity: 'عالية', cve: 'CVE-2023-32681', description: 'قد يسمح للمهاجم بالتسبب في رفض الخدمة (DoS) عبر معالجة غير صحيحة للطلبات.', status: 'غير مشعل', recommendation: 'تحديث إلى 2.31.0 أو أحدث.' },
+            { severity: 'متوسطة', cve: 'CVE-2022-12345', description: 'مشكلة في التحقق من الشهادات قد تؤدي إلى التعرض لهجوم الرجل في المنتصف.', status: 'غير مشعل', recommendation: 'تحديث إلى 2.31.0 أو أحدث.' },
+            { severity: 'منخفضة', cve: 'CVE-2021-98765', description: 'كشف معلومات عن البيئة عبر رسائل الخطأ في ظروف معينة.', status: 'غير مشعل', recommendation: 'تحديث إلى 2.28.2 أو أحدث.' }
+        ],
+        updateMessage: 'يُوصى بتحديث مكتبة requests من الإصدار 2.25.1 إلى الإصدار 2.31.0 أو أحدث للحصول على حماية من الثغرات المكتشفة.',
+        lastSecurityUpdate: '2.31.0'
+    };
+
+    // ============================================================
+    // دالة عرض التقرير
+    // ============================================================
+    function renderReport(data) {
+        // Score
+        const scoreCircle = document.getElementById('scoreCircle');
+        scoreCircle.textContent = data.score;
+        scoreCircle.className = 'score-circle';
+        if (data.score >= 80) scoreCircle.classList.add('score-good');
+        else if (data.score >= 50) scoreCircle.classList.add('score-medium');
+        else scoreCircle.classList.add('score-bad');
+
+        document.getElementById('libName').textContent = data.library.name;
+        document.getElementById('libDescription').textContent = data.library.description || 'مكتبة Python';
+        document.getElementById('lastUpdate').textContent = 'آخر تحديث أمني: ' + data.lastSecurityUpdate;
+
+        const badge = document.getElementById('statusBadge');
+        if (data.score >= 80) { badge.textContent = '✅ جيد'; badge.className = 'badge badge-good'; }
+        else if (data.score >= 50) { badge.textContent = '⚠️ متوسط'; badge.className = 'badge badge-medium'; }
+        else { badge.textContent = '❌ ضعيف'; badge.className = 'badge badge-bad'; }
+
+        // Stats
+        const severityMap = { 'عالية': 0, 'متوسطة': 0, 'منخفضة': 0, 'حرجة': 0 };
+        data.vulns.forEach(v => {
+            if (v.severity === 'عالية') severityMap['عالية']++;
+            else if (v.severity === 'متوسطة') severityMap['متوسطة']++;
+            else if (v.severity === 'منخفضة') severityMap['منخفضة']++;
+            else if (v.severity === 'حرجة') severityMap['حرجة']++;
+        });
+        document.getElementById('totalVulns').textContent = data.vulns.length;
+        document.getElementById('highCount').textContent = severityMap['عالية'];
+        document.getElementById('mediumCount').textContent = severityMap['متوسطة'];
+        document.getElementById('lowCount').textContent = severityMap['منخفضة'];
+        document.getElementById('criticalCount').textContent = severityMap['حرجة'];
+        // Library Info
+        document.getElementById('infoName').textContent = data.library.name;
+        document.getElementById('infoVersion').textContent = data.library.version;
+        document.getElementById('infoEcosystem').textContent = data.library.ecosystem;
+        document.getElementById('infoDate').textContent = data.library.scanDate;
+        document.getElementById('infoStatus').textContent = '✅ ' + data.library.status;
+        document.getElementById('infoMaxSeverity').textContent = data.library.maxSeverity;
+
+        // Update Message
+        document.getElementById('updateMessage').innerHTML = '<strong>تحديث مطلوب:</strong> ' + data.updateMessage;
+
+        // Report Date
+        document.getElementById('reportDate').textContent = 'تم التوليد: ' + new Date().toLocaleString('ar-EG');
+
+        // === جدول الثغرات ===
+        const tbody = document.getElementById('vulnTableBody');
+        tbody.innerHTML = '';
+        data.vulns.forEach(v => {
+            const tr = document.createElement('tr');
+            const sevClass = v.severity === 'عالية' ? 'severity-high' : 
+                             v.severity === 'متوسطة' ? 'severity-medium' : 'severity-low';
+            tr.innerHTML = 
+                <td><span class="${sevClass}">${v.severity}</span></td>
+                <td><strong>${v.cve}</strong></td>
+                <td style="text-align:right; font-size:13px;">${v.description}</td>
+                <td>${v.status}</td>
+                <td style="text-align:right; font-size:13px; color:#155724;">${v.recommendation}</td>
+            ;
+            tbody.appendChild(tr);
+        });
+
+        // === Chart.js ===
+        const ctx = document.getElementById('severityChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['حرجة', 'عالية', 'متوسطة', 'منخفضة'],
+                datasets: [{
+                    data: [severityMap['حرجة'], severityMap['عالية'], severityMap['متوسطة'], severityMap['منخفضة']],
+                    backgroundColor: ['#6f42c1', '#dc3545', '#fd7e14', '#28a745'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12 }, usePointStyle: true, padding: 15 }
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    }
+
+    // ============================================================
+    // تشغيل التقرير عند تحميل الصفحة
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        renderReport(reportData);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>CyberLens - منصة الأمان المتكاملة</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial; padding: 20px; background: #f0f2f5; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .tab-btn { padding: 10px 25px; border: none; background: #e9ecef; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        .tab-btn.active { background: #007bff; color: white; }
+        .tab-content { display: none; padding: 20px; background: #f8f9fa; border-radius: 10px; margin-top: 10px; }
+        .tab-content.active { display: block; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background: #007bff; color: white; }
+        button { cursor: pointer; padding: 6px 15px; background: #28a745; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #218838; }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; }
+        textarea { height: 150px; }
+        .score-box { font-size: 24px; font-weight: bold; color: #007bff; margin: 10px 0; padding: 10px; background: #e3f2fd; border-radius: 8px; }
+        .status { padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .loading { background: #fff3cd; color: #856404; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .result-box { margin-top:15px; padding:15px; background:white; border-radius:8px; border:1px solid #ddd; white-space:pre-wrap; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🛡️ CyberLens - منصة فحص الأمان</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('tab1')">📦 فحص ملف</button>
+        <button class="tab-btn" onclick="showTab('tab2')">🧠 تحليل كود</button>
+        <button class="tab-btn" onclick="showTab('tab3')">🔗 فحص رابط</button>
+    </div>
+
+    <!-- ====== التبويب 1: فحص ملف ====== -->
+    <div id="tab1" class="tab-content active">
+        <h3>📦 فحص ملف requirements.txt</h3>
+        <div id="scoreDisplay" class="score-box">📈 درجة الأمان: -- / 100</div>
+        <div id="statusMsg1" class="status"></div>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".txt" required>
+            <button type="submit">🔍 ارفع وافحص</button>
+        </form>
+        <div id="resultArea">
+            <table id="resultsTable">
+                <thead><tr><th>المكتبة</th><th>الإصدار</th><th>CVE</th><th>الشرح</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ====== التبويب 2: تحليل كود ====== -->
+    <div id="tab2" class="tab-content">
+        <h3>🧠 تحليل كود برمجي (اكتشف الثغرات)</h3>
+        <div id="statusMsg2" class="status"></div>
+        <textarea id="codeInput" placeholder="الصق الكود البرمجي هنا للتحليل..."></textarea>
+        <button onclick="analyzeCode()">🔍 حلل الكود</button>
+        <div id="codeResult" class="result-box"></div>
+    </div>
+
+    <!-- ====== التبويب 3: فحص رابط ====== -->
+    <div id="tab3" class="tab-content">
+        <h3>🔗 فحص رابط (اكتشف الروابط المشبوهة)</h3>
+        <div id="statusMsg3" class="status"></div>
+        <input type="text" id="urlInput" placeholder="أدخل الرابط هنا (مثال: https://example.com)">
+        <button onclick="scanUrl()">🔍 افحص الرابط</button>
+        <div id="urlResult" class="result-box"></div>
+    </div>
+</div>
+<script>
+// ========== تبديل التبويبات ==========
+function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// ========== 1. فحص الملف ==========
+const form = document.getElementById('uploadForm');
+const tbody = document.querySelector('#resultsTable tbody');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const statusMsg1 = document.getElementById('statusMsg1');
+
+form.onsubmit = async function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const fileInput = form.querySelector('input[type="file"]');
+    if (!fileInput.files.length) { alert('الرجاء اختيار ملف أولاً'); return; }
+    
+    statusMsg1.className = 'status loading';
+    statusMsg1.innerHTML = '⏳ جاري رفع الملف والفحص...';
+    tbody.innerHTML = '';
+    scoreDisplay.innerText = '📈 درجة الأمان: -- / 100';
+    
+    try {
+        const response = await fetch('/api/scan', { method: 'POST', body: formData });
+        if (!response.ok) throw new Error('الخادم رد بـ: ' + response.status);
+        const data = await response.json();
+        console.log('✅ البيانات:', data);
+        
+        if (data.security_score !== undefined) {
+            scoreDisplay.innerText = '📈 درجة الأمان: ' + data.security_score + ' / 100';
+        }
+        const results = data.results || data;
+        statusMsg1.className = 'status success';
+        statusMsg1.innerHTML = '✅ تم العثور على ' + results.length + ' ثغرة';
+        
+        if (results.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4">✅ لا توجد ثغرات</td></tr>';
+        } else {
+            results.forEach(function(item) {
+                const row = tbody.insertRow();
+                row.insertCell(0).innerText = item.library;
+                row.insertCell(1).innerText = item.version;
+                row.insertCell(2).innerText = item.cve || 'لا يوجد';
+                const btn = document.createElement('button');
+                btn.innerText = '📖 اشرح';
+                btn.onclick = function() {
+                    if (!item.cve || item.cve === 'لا يوجد') { alert('⚠️ لا توجد ثغرة مسجلة.'); return; }
+                    fetch('/api/ai/explain', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ cve: item.cve })
+                    })
+                    .then(res => res.json())
+                    .then(data => alert('📢 شرح الثغرة:\n\n' + data.explanation))
+                    .catch(err => alert('❌ فشل في جلب الشرح: ' + err.message));
+                };
+                const cell = row.insertCell(3);
+                cell.appendChild(btn);
+            });
+        }
+    } catch (error) {
+        statusMsg1.className = 'status error';
+        statusMsg1.innerHTML = '❌ فشل الاتصال بالخادم: ' + error.message;
+        console.error('الخطأ:', error);
+    }
+};
+
+// ========== 2. تحليل الكود ==========
+async function analyzeCode() {
+    const code = document.getElementById('codeInput').value;
+    const resultDiv = document.getElementById('codeResult');
+    const statusMsg2 = document.getElementById('statusMsg2');
+    if (!code.trim()) { alert('الرجاء كتابة كود للتحليل'); return; }
+    statusMsg2.className = 'status loading';
+    statusMsg2.innerHTML = '⏳ جاري تحليل الكود...';
+    resultDiv.innerHTML = '';
+    try {
+        const response = await fetch('/api/ai/analyze-code', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: code })
+        });
+        const data = await response.json();
+        statusMsg2.className = 'status success';
+        statusMsg2.innerHTML = '✅ تم تحليل الكود بنجاح';
+        resultDiv.innerHTML = data.analysis || 'لا يوجد تحليل';
+    } catch (error) {
+        statusMsg2.className = 'status error';
+        statusMsg2.innerHTML = '❌ فشل تحليل الكود: ' + error.message;
+        resultDiv.innerHTML = 'خطأ: ' + error.message;
+    }
+}
+
+// ========== 3. فحص الرابط ==========
+async function scanUrl() {
+    const url = document.getElementById('urlInput').value;
+    const resultDiv = document.getElementById('urlResult');
+    const statusMsg3 = document.getElementById('statusMsg3');
+    if (!url.trim()) { alert('الرجاء إدخال رابط'); return; }
+    statusMsg3.className = 'status loading';
+    statusMsg3.innerHTML = '⏳ جاري فحص الرابط...';
+    resultDiv.innerHTML = '';
+    try {
+        const response = await fetch('/api/ai/analyze-url', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        });
+        const data = await response.json();
+        statusMsg3.className = 'status success';
+        statusMsg3.innerHTML = '✅ تم فحص الرابط';
+        resultDiv.innerHTML = data.analysis || 'لا توجد نتيجة';
+    } catch (error) {
+        statusMsg3.className = 'status error';
+        statusMsg3.innerHTML = '❌ فشل فحص الرابط: ' + error.message;
+        resultDiv.innerHTML = 'خطأ: ' + error.message;
+    }
+}
+</script>
+</body>
+</html>
+<a href="/report.html" class="btn" style="background: #1a2a6c; margin-right: 10px;">📊 عرض التقرير المفصل</a>
